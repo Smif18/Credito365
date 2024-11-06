@@ -5,8 +5,9 @@ export class CalculatorElements {
     readonly page: Page;
     readonly calculatorButton: Locator;
     readonly calculatorDefaultValue: Locator;
+    readonly calculatorMinusValue: Locator;
     readonly minusButton: Locator;
-    readonly plusBatton: Locator;
+    readonly plusButton: Locator;
     readonly arangeInput: Locator;
     readonly totalAmount: Locator;
    
@@ -15,8 +16,9 @@ export class CalculatorElements {
         this.page = page;
         this.calculatorButton = page.locator('.calculator-elem__btn a');
         this.calculatorDefaultValue = page.locator('.calculator-elem__current .input_wrapper');
+        this.calculatorMinusValue = page.locator('.calculator-elem__current .input_wrapper');
         this.minusButton = page.locator('.calculator-elem__button-minus');
-        this.plusBatton = page.locator('.calculator-elem__button-plus');
+        this.plusButton = page.locator('.calculator-elem__button-plus');
         this.arangeInput = page.locator('input[type="range"]');
         this.totalAmount = page.locator('')
 
@@ -31,9 +33,25 @@ export class CalculatorElements {
         await this.calculatorButton.click();
     }
 
-    async getCalculatorCurrentValue() {
+    async getCalculatorDefaultValue() {
         await expect(this.calculatorDefaultValue).toContainText('200 000');
     }
+
+    async clickToMinusButton() {
+        await expect(this.minusButton).toBeVisible();
+        await this.minusButton.click();
+        return await this.calculatorMinusValue.textContent();
+    }
+
+    async clickToPlusButton() {
+        await expect(this.plusButton).toBeVisible();
+        await this.plusButton.click();
+        return await this.calculatorMinusValue.textContent();
+    }
+
+
+    
+
 
 
 }
