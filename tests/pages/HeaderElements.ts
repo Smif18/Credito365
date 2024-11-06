@@ -15,7 +15,6 @@ export class HeaderElements{
     readonly supportPhone: Locator;
     readonly supportWAPhone: Locator;
 
-
     constructor (page: Page){
         this.page=page;
         this.logo=page.locator('.header__logo');
@@ -26,9 +25,16 @@ export class HeaderElements{
         this.menuItem_FAQ=page.locator('a[href="https://credito365.co/faq/"]').first();
         this.logoButton=page.locator('a[href="/user/login/"]');
         this.regularPhone=page.locator('a.phone[href^="tel:"]');
-        this.whatsappPhone=page.locator('a.phone-whatsapp[href^="https://wa.me"]');
+        this.whatsappPhone = page.locator('.phone-whatsapp');
         this.supportPhone=page.locator('a[href="tel:3330333060"]');
         this.supportWAPhone=page.locator('a[href="https://wa.me/+573044404600"]');
 
     }
+
+    async getWhatsappPhoneNumber() {
+        await expect(this.whatsappPhone).toBeVisible();
+        await expect(this.whatsappPhone).toContainText('3044404600');
+
+    }
+    
 }

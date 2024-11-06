@@ -17,7 +17,5 @@ export class HomePageElements{
     async checkURL(){
         await expect(this.page).toHaveURL('https://credito365.co');
     }
-
-
-
+    
 }
