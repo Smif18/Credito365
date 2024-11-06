@@ -22,4 +22,14 @@ test.describe('Check Calculator elements', () => {
         const calculatorPlusValue = await calculator.clickToPlusButton();
         expect(calculatorPlusValue).toContain('210 000');
      })
+
+    test('Arrange input visible', async () => {
+        await expect(calculator.arangeInput).toBeVisible();
+    })
+    
+    test('Minimum value is presented', async () => {
+        await expect(calculator.minimumValue).toBeVisible();
+        const minimumCalculatorValue = await calculator.getCalculatorMinimumValue();
+        expect(minimumCalculatorValue).toContain('100 000');
+    })
 })

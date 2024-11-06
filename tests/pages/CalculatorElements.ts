@@ -10,6 +10,8 @@ export class CalculatorElements {
     readonly plusButton: Locator;
     readonly arangeInput: Locator;
     readonly totalAmount: Locator;
+    readonly minimumValue: Locator;
+    readonly maximumValue: Locator;
    
 
     constructor(page: Page) {
@@ -21,6 +23,8 @@ export class CalculatorElements {
         this.plusButton = page.locator('.calculator-elem__button-plus');
         this.arangeInput = page.locator('input[type="range"]');
         this.totalAmount = page.locator('')
+        this.minimumValue = page.locator('.calculator-elem__min');
+        this.maximumValue = page.locator('.calculator-elem__max');
 
     }
 
@@ -47,6 +51,11 @@ export class CalculatorElements {
         await expect(this.plusButton).toBeVisible();
         await this.plusButton.click();
         return await this.calculatorMinusValue.textContent();
+    }
+
+    async getCalculatorMinimumValue() {
+        return await this.minimumValue.textContent();
+
     }
 
 
