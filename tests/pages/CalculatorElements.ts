@@ -55,11 +55,11 @@ export class CalculatorElements {
 
     async getCalculatorMinimumValue() {
         return await this.minimumValue.textContent();
-
     }
 
-
-    
+    async getCalculatorMaximumValue() {
+        return await this.maximumValue.textContent();
+    }
 
 
 

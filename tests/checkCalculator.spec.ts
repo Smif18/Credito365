@@ -27,9 +27,15 @@ test.describe('Check Calculator elements', () => {
         await expect(calculator.arangeInput).toBeVisible();
     })
     
-    test('Minimum value is presented', async () => {
+    test('Minimum value 100 000 is presented', async () => {
         await expect(calculator.minimumValue).toBeVisible();
         const minimumCalculatorValue = await calculator.getCalculatorMinimumValue();
         expect(minimumCalculatorValue).toContain('100 000');
+    })
+
+    test('Maximum value 1 000 000 is presented', async () => {
+        await expect(calculator.maximumValue).toBeVisible();
+        const maximumCalculatorValue = await calculator.getCalculatorMaximumValue();
+        expect(maximumCalculatorValue).toContain('1 000 000');
     })
 })
