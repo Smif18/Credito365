@@ -1,12 +1,16 @@
 import { test, expect } from '@playwright/test';
 import { CalculatorElements } from './pages/CalculatorElements';
+import { HomePageElements } from './pages/HomePageElements';
+
 
 test.describe('Check Calculator elements', () => {
     let calculator: CalculatorElements;
+    let home: HomePageElements;
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://credito365.co/');
+        home = new HomePageElements(page);
         calculator = new CalculatorElements(page);
+        await home.openHomePage();
     });
 
     test('Default value 200 000', async () => {
