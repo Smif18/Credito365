@@ -7,6 +7,7 @@ test.describe('Credito365 header Tests', () => {
     test.beforeEach(async ({ page }) => {
         await page.goto('https://credito365.co/');
         header = new HeaderElements(page);
+    });
 
         test('Header elements are present', async () => {
             // Проверка наличия логотипа
@@ -39,6 +40,29 @@ test.describe('Credito365 header Tests', () => {
             await page.waitForURL('https://credito365.co/como-aplicar/');
             expect(page.url()).toContain('como-aplicar');
         });
+
+        test('Navigate to "Como pagar" page', async ({ page }) => {
+            await header.navigateToMenuItem('Como pagar');
+            await page.waitForURL('https://credito365.co/como-pagar/');
+            expect(page.url()).toContain('como-pagar');
+        });
+
+        test('Navigate to "Como extender" page', async ({ page }) => {
+            await header.navigateToMenuItem('Como extender');
+            await page.waitForURL('https://credito365.co/como-extender/');
+            expect(page.url()).toContain('como-extender');
+        });
+
+        test('Navigate to "Sobre nosotros" page', async ({ page }) => {
+            await header.navigateToMenuItem('Sobre nosotros');
+            await page.waitForURL('https://credito365.co/sobre-nosotros/');
+            expect(page.url()).toContain('sobre-nosotros');
+        });
+
+        test('Navigate to "FAQ" page', async ({ page }) => {
+            await header.navigateToMenuItem('FAQ');
+            await page.waitForURL('https://credito365.co/faq/');
+            expect(page.url()).toContain('faq');
+        });
     
-});
 });
