@@ -1,63 +1,73 @@
 import { test, expect } from '@playwright/test';
-import { chromium, Browser, Page } from 'playwright';
 import { HomePageElements } from './pages/HomePageElements';
 import { Login } from './pages/Login';
 
+// Заполнение кодом
+const fillCodeFields = async (page, code: string) => {
+    for (let i = 0; i < code.length; i++) {
+        await page.fill(`input[name="sms_code_${i}"]`, code[i]);
+    }
+};
 
 test.describe('Login', () => {
     let home: HomePageElements;
     let login: Login;
 
     test.beforeEach(async ({ page }) => {
-        home = new HomePageElements(page);
+        home = new HomePageElements(page)
+;
+        login = new Login(page)
+;
         await home.openHomePage();
     });
 
+    test('Login to personal account', async ({ page }) => {
+        await login.openLoginPage();
+        await login.fillPhoneInput();
+        await login.clickToCheckBox();
+        await login.clickToContinueButton();
+        await login.waitForConfirmarButton();
+        await login.clickToConfirmPhoneButtonModal();
 
- test('Login to personal account', async () => {
-    const browser: Browser = await chromium.launch({ headless: false });
-    const context = await browser.newContext();
-    const page: Page = await context.newPage();  
-    await login.openLoginPage();
-    await login.fillPhoneInput();
-    await login.clickToCheckBox();
-    await login.clickToContinueButton();
-    await login.waitForConfirmarButton();
-    await login.clickToConfirmPhoneButtonModal(); 
-  
+        
+        await page.route('**/*', async route => {
+            if (route.request().url().includes('https://master.credito365-co.avgr.it/api/v2/user/create')) {
+                const response = await route.fetch();
+                const responseBody = await response.json();
+                if (responseBody.code) {
+                    const code = responseBody.code;
+                    console.log(`Received code: ${code}`);
 
-  // Перехват
-  const interceptRequest = async (route: any, request: any) => {
-    if (request.url().includes('https://master.credito365-co.avgr.it/api/v2/user/create')) {
-      const response = await route.continue();
-      response.finished().then(async () => {
-        const responseBody = await response.json();
-        if (responseBody.code) {
-          const code = responseBody.code;
-          console.log(`Received code: ${code}`);
-          await fillCodeFields(code);
+                    
+                    for (let i = 0; i < code.length; i++) {
+                        await page.waitForSelector(`input[name="sms_code_${i}"]`, { state: 'visible' });
+                    }
+
+                    await fillCodeFields(page, code);
+
+                  
+                    await page.waitForSelector(`input[name="sms_code_${code.length - 1}"]`, { state: 'visible' });
+
+                    
+                    await login.clickToSendCodeButton();
+                }
+            }
+            await route.continue();
+        });
+
+        
+        try {
+            const response = await page.waitForResponse(response => 
+                response.url().includes('https://master.credito365-co.avgr.it/api/v2/user/create') && response.status() === 200,
+                { timeout: 60000 } 
+            );
+            console.log(`Response received: ${response.url()}`);
+        } catch (error) {
+            console.error(`Error waiting for response: ${error.message}`);
+            throw error;
         }
-      });
-    } else {
-      await route.continue();
-    }
-  };
 
-  // Заполнение кодом
-  const fillCodeFields = async (code: string) => {
-    for (let i = 0; i < code.length; i++) {
-      await page.fill(`input[name="sms_code_${i}"]`, code[i]);
-    }
-  };
 
-  // Перехватка
-  await page.route('**/*', interceptRequest);
-
-  
-  // Ждем
-  await page.waitForTimeout(5000); 
-
-  // Клос браузера
-  await browser.close();
-})
+        await page.waitForSelector('button:has-text("Confirmar"):not([disabled])', { state: 'visible' });
+    });
 });

@@ -33,7 +33,7 @@ export class Login {
     }
 
     async fillPhoneInput(){
-        await this.phoneInput.fill('3009114335');
+        await this.phoneInput.fill('3009114399');
     }
 
     async clickToCheckBox(){
@@ -50,6 +50,10 @@ export class Login {
 
     async clickToConfirmPhoneButtonModal(){
         await this.confirmPhoneButtonModal.click(); 
+    }
+
+    async clickToSendCodeButton(){
+        await this.sendCodeButton.click();
     }
 
 }
