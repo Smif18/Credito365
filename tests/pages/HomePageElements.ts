@@ -13,6 +13,8 @@ export class HomePageElements{
     readonly advantagesIcons: Locator;
     readonly advantagesTitiles: Locator;
     readonly advantagesDescriptions: Locator;
+    readonly promoText: Locator;
+    readonly continueButton: Locator;
     readonly instructionsTitle: Locator;
     readonly instructionsTabsContainer: Locator;
     readonly instructionApplyTab: Locator;
@@ -23,6 +25,15 @@ export class HomePageElements{
     readonly extendTabContent: Locator;
     readonly instructionSteps: Locator;
     readonly instructionImage: Locator;
+    readonly scrolledContentSection: Locator;
+    readonly scrolledContentSectionText: Locator;
+    readonly firstHeading: Locator;
+    readonly headings: Locator;
+    readonly microcreditoParagraph: Locator;
+    readonly condicionesSection: Locator;
+    readonly condicionesWrapper: Locator;
+    readonly condicionesHeading: Locator;
+    readonly condicionesText: Locator;
 
 
 
@@ -38,6 +49,8 @@ export class HomePageElements{
         this.advantagesIcons = page.locator('div.advantage__icon img');
         this.advantagesTitiles = page.locator('h3.advantage__title');
         this.advantagesDescriptions = page.locator('p.advantage__description');
+        this.promoText = page.locator('div.advantages__promo-text');
+        this.continueButton = page.locator('a.advantages__button.btn:has-text("Continuar")');
         this.instructionsTitle = page.locator('h2.section-title.instruction__title');
         this.instructionsTabsContainer = page.locator('div.tabs__labels');
         this.instructionApplyTab = page.locator('div.tabs__labels-label:has-text("Aplica")');
@@ -48,12 +61,17 @@ export class HomePageElements{
         this.extendTabContent = page.locator('div.tab-content.tabs__content-item').nth(2);
         this.instructionSteps = page.locator('ul.instruction-steps');
         this.instructionImage = page.locator('div.instruction__image img');
-
-
-
-
-
+        this.scrolledContentSection = page.locator('section.scrolled-simple-content');
+        this.scrolledContentSectionText = page.locator('div.scrolled-simple-content__text');
+        this.firstHeading = page.locator('h2:has-text("Microcrédito en línea en la tarjeta en Credito365")');
+        this.headings = page.locator('section.scrolled-simple-content h2');
+        this.microcreditoParagraph = page.locator('p:has-text("Es un servicios de créditos online que puedes obtener sin papeleo y de manera rápida")');
+        this.condicionesSection = page.locator('section.custom-content.custom-content__index-page');
+        this.condicionesWrapper = page.locator('div.custom-content__wrapper');
+        this.condicionesHeading = page.locator('h2:has-text("Condiciones para la obtención del credito de bajo monto")');
+        this.condicionesText = page.locator('p:has-text("Recuerda cumplir los siguientes requisitos: ser mayor de edad")');
     }
+    
 
         //  Текста заголовков и описаний блока "Nuestras ventajas"
         expectedTitles = ['Rápido', 'Simple', 'Transparente', 'Flexible'];

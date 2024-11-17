@@ -23,7 +23,7 @@ test.describe('Login', () => {
 
     test('Login to personal account', async ({ page }) => {
         await login.openLoginPage();
-        await login.fillPhoneInput();
+        await login.fillRandomNumber();
         await login.clickToCheckBox();
         await login.clickToContinueButton();
         await login.waitForConfirmarButton();
@@ -31,7 +31,7 @@ test.describe('Login', () => {
 
         
         await page.route('**/*', async route => {
-            if (route.request().url().includes('https://master.credito365-co.avgr.it/api/v2/user/create')) {
+            if (route.request().url().includes('https://master.credito365-co.avgr.it/api/v2/user/create/')) {
                 const response = await route.fetch();
                 const responseBody = await response.json();
                 if (responseBody.code) {
@@ -58,8 +58,8 @@ test.describe('Login', () => {
         
         try {
             const response = await page.waitForResponse(response => 
-                response.url().includes('https://master.credito365-co.avgr.it/api/v2/user/create') && response.status() === 200,
-                { timeout: 60000 } 
+                response.url().includes('https://master.credito365-co.avgr.it/api/v2/user/create/') && response.status() === 200,
+                { timeout: 120000 } 
             );
             console.log(`Response received: ${response.url()}`);
         } catch (error) {

@@ -26,6 +26,19 @@ export class Login {
         this.sendCodeButton = page.locator('button:has-text("Confirmar")');
     }
 
+    generateRandomPhoneNumber() {
+        const prefixes = ['300', '301', '302', '303', '304', '305', '310','311', '312', '313', '314', '315', 
+                        '316', '317', '318', '319', '320', '321', '322', '323', '324', '333', '350', '351', ];
+        const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+        const randomNumbers = Array.from({ length: 7 }, () => Math.floor(Math.random() * 10)).join('');
+        return `${prefix} ${randomNumbers.slice(0, 3)} ${randomNumbers.slice(3)}`;
+      }
+
+    async fillRandomNumber() {
+        const phoneNumber = this.generateRandomPhoneNumber();
+        await this.phoneInput.fill(phoneNumber);
+        return phoneNumber;
+    }
 
 
     async openLoginPage(){

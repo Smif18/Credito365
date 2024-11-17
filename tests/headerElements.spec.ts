@@ -1,15 +1,18 @@
 import { test, expect } from '@playwright/test';
 import { HeaderElements } from './pages/HeaderElements';
+import { HomePageElements } from './pages/HomePageElements';
 
 test.describe('Credito365 header Tests', () => {
     let header: HeaderElements;
+    let home: HomePageElements;
 
     test.beforeEach(async ({ page }) => {
-        await page.goto('https://credito365.co/');
+        home = new HomePageElements(page);
         header = new HeaderElements(page);
+        await home.openHomePage();
     });
 
-        test('Header elements are present', async () => {
+        test('Header elements are present', async ({ page}) => {
             // Проверка наличия логотипа
             await expect(header.logo).toBeVisible();
     
@@ -19,7 +22,27 @@ test.describe('Credito365 header Tests', () => {
     
             // Проверка наличия кнопки "Iniciar sesión"
             await expect(header.loginButton).toBeVisible();
-    
+
+            // Проверяем ссылку
+            await expect(header.loginButton).toHaveAttribute('href', '/user/login/');
+
+             //Проверяем кликабельность кнопки
+            await header.loginButton.click();
+            await expect(page).toHaveURL(/.*\/user\/login\/.*/);
+            });
+   
+
+            test('Переход по кнопке "Iniciar sesión"', async ({ page }) => {
+
+            // Клик по кнопке
+            await header.loginButton.click();
+
+            // Проверка URL
+            await expect(page).toHaveURL('https://credito365.co/user/login/');
+            });
+
+
+            test('WhatsApp and regular phone numbers', async () => {
             // Проверка наличия телефона WhatsApp
             await expect(header.whatsappPhone).toBeVisible();
             const whatsappPhoneNumber = await header.getWhatsappPhoneNumber();
