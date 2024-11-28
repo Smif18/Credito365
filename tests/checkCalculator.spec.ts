@@ -14,21 +14,22 @@ test.describe('Check Calculator elements', () => {
     });
 
     test('Default value 200 000', async () => {
-        await calculator.getCalculatorDefaultValue();
+        const calculatorDefaultValue = await calculator.getCalculatorDefaultValue();
+        expect(calculatorDefaultValue).toContain('200 000');
     })
 
     test('Calculator value after minus button click = 190 000', async () => {
-       const calculatorMinusValue = await calculator.clickToMinusButton();
-       expect(calculatorMinusValue).toContain('190 000');
+        const calculatorMinusValue = await calculator.valueAfterMinusButtonClick();
+        expect(calculatorMinusValue).toContain('190 000');
     })
 
     test('Calculator value after plus button click = 210 000', async () => {
-        const calculatorPlusValue = await calculator.clickToPlusButton();
+        const calculatorPlusValue = await calculator.valueAfterPlusButtonClick();
         expect(calculatorPlusValue).toContain('210 000');
      })
 
     test('Arrange input visible', async () => {
-        await expect(calculator.arangeInput).toBeVisible();
+        await expect(calculator.creditSlider).toBeVisible();
     })
     
     test('Minimum value 100 000 is presented', async () => {
@@ -42,4 +43,14 @@ test.describe('Check Calculator elements', () => {
         const maximumCalculatorValue = await calculator.getCalculatorMaximumValue();
         expect(maximumCalculatorValue).toContain('1 000 000');
     })
+
+    test('Checking the value change via slider', async () => {
+        await calculator.creditSlider.fill('100000');
+        await expect(calculator.currentValue).toHaveText('100 000');
+
+        await calculator.creditSlider.fill('1000000');
+        await expect(calculator.currentValue).toHaveText('1 000 000');
+    });
+
+
 })
