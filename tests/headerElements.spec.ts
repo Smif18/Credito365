@@ -32,7 +32,7 @@ test.describe('Credito365 header Tests', () => {
             });
    
 
-            test('Переход по кнопке "Iniciar sesión"', async ({ page }) => {
+            test('Click on the button “Iniciar sesión”', async ({ page }) => {
 
             // Клик по кнопке
             await header.loginButton.click();

@@ -52,5 +52,4 @@ test.describe('Check Calculator elements', () => {
         await expect(calculator.currentValue).toHaveText('1 000 000');
     });
 
-
 })

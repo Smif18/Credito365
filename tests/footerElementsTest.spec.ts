@@ -12,12 +12,12 @@ test.describe('Credito365 footer elements test', () => {
         await home.openHomePage();
     });
 
-    test('Футер отображается', async () => {
+    test('The footer is shown', async () => {
     
         await expect(footer.footer).toBeVisible();
     });
 
-    test('Логотип в футере отображается', async () => {
+    test('Logo is displayed in the footer', async () => {
     
         await expect(footer.logo).toBeVisible();
         //await expect(footer.logo).toHaveAttribute('src', 'https://credito365.co/wp-content/uploads/2023/09/footer-logo.svg');
@@ -45,7 +45,7 @@ test.describe('Credito365 footer elements test', () => {
         }
     });
 
-    test('Логотип платежной системы', async () => {
+    test('PSE logo is displayed', async () => {
         await expect(footer.pseLogo).toBeVisible();
         await expect(footer.pseLogo).toHaveAttribute('src', 'https://credito365.co/wp-content/uploads/2024/05/footer-pse-logo.svg');
         });

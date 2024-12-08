@@ -10,7 +10,7 @@ test.describe('Privacy policy page test', () => {
         await footer.openPDPPage();
     });
 
-    test('Checking for a main elements on the PDD page', async () => {
+    test('Checking for a main elements on the PDP page', async () => {
         await expect(footer.pdpHeader).toHaveText('Política de Tratamiento de Datos Personales');
         //Проверка ссылки на сайт "credito365.co"
         await expect(footer.pdpLinkToHomePage).toHaveAttribute('href', 'https://credito365.co');

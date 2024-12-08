@@ -31,12 +31,12 @@ test.describe('Credito365 home page elements test', () => {
         await expect(home.advantagesItems).toHaveCount(4);
 
 
-        // Проверяем заголовки
+        // Проверяем заголовки блока "Nuestras ventajas"
         for (let i = 0; i < home.expectedTitles.length; i++) {
         await expect(home.advantagesTitiles.nth(i)).toHaveText(home.expectedTitles[i]);
         }
 
-        // Проверяем описания
+        // Проверяем описания блока "Nuestras ventajas"
         for (let i = 0; i < home.expectedDescriptions.length; i++) {
         await expect(home.advantagesDescriptions.nth(i)).toHaveText(home.expectedDescriptions[i]);
 
@@ -75,7 +75,7 @@ test.describe('Credito365 home page elements test', () => {
     });
    
 
-        test('Переход по кнопке "Continuar"', async ({ page }) => {
+        test('Switching to the “Continuar” button', async ({ page }) => {
 
          // Клик по кнопке
         await home.continueButton.click();
@@ -85,7 +85,7 @@ test.describe('Credito365 home page elements test', () => {
         });
 
 
-        test('Проверка блока с инструкциями', async ( ) => {
+        test('Checking the instruction box', async ( ) => {
 
         //Проверки блока с инструкциями
         await expect(home.instructionsTitle).toBeVisible();
@@ -113,7 +113,7 @@ test.describe('Credito365 home page elements test', () => {
        
 
         // Проверка отображения и контента блока со скроллом
-        test('Проверка секции "scrolled-simple-content"', async () => {
+        test('Checking the “scrolled-simple-content” section', async () => {
         await expect(home.scrolledContentSection).toBeVisible();
         await expect(home.firstHeading).toBeVisible();
         
