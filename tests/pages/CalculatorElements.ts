@@ -24,7 +24,6 @@ export class CalculatorElements {
         this.minusButton = page.locator('.calculator-elem__button-minus');
         this.plusButton = page.locator('.calculator-elem__button-plus');
         this.creditSlider = page.locator('input[type="range"]');
-        this.totalAmount = page.locator('')
         this.minimumValue = page.locator('.calculator-elem__min');
         this.maximumValue = page.locator('.calculator-elem__max');
 

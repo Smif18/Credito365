@@ -5,7 +5,7 @@ import { HomePageElements} from './pages/HomePageElements'
 import { FooterElements } from './pages/footerElements';
 import { HeaderElements } from './pages/HeaderElements';
 
-test.describe('Проверка страницы "¿Cómo obtener tu crédito online?"', () => {
+test.describe('Проверка страницы "Como aplicar"', () => {
     let como: ComoAplicar;
     let calculator: CalculatorElements;
     let home: HomePageElements
@@ -22,21 +22,21 @@ test.describe('Проверка страницы "¿Cómo obtener tu crédito on
       });
 
        // Проверка наличия основного заголовка
-  test('Должен отображаться основной заголовок', async () => {
+  test('Отображение основного заголовока', async () => {
     await expect(como.mainHeading).toBeVisible();
     await expect(como.mainHeading).toHaveText('¿Cómo obtener tu crédito online?');
   });
 
    // Проверка текста абзаца
-   test('Должен отображаться текст описания', async () => {
+   test('Отображение текста описания', async () => {
     await expect(como.paragraph).toBeVisible();
     await expect(como.paragraph).toHaveText(
-      /Un crédito online de bajo monto es la forma rápida y eficiente de solucionar un problema económico inesperado/
+    /Un crédito online de bajo monto es la forma rápida y eficiente de solucionar un problema económico inesperado/
     );
   });
 
   // Проверка списка требований
-  test('Список требований должен содержать правильные элементы', async () => {
+  test('Список требований содержит правильные элементы', async () => {
    
     const itemsCount = await como.requirementsItems.count();
     expect(itemsCount).toBe(como.expectedItems.length);
@@ -46,7 +46,7 @@ test.describe('Проверка страницы "¿Cómo obtener tu crédito on
     }
   });
 
-  test('Карточки должны содержать правильные заголовки и описания', async () => {
+  test('Карточки содержат правильные заголовки и описания', async () => {
    
     const cardsCount = await como.cards.count();
     expect(cardsCount).toBe(como.expectedCardTitles.length);
@@ -59,47 +59,48 @@ test.describe('Проверка страницы "¿Cómo obtener tu crédito on
 
 
   test('Calculator tests', async ({ page }) => {
+    //По умолчанию на калькуляторе значение 200 000
     const calculatorDefaultValue = await calculator.getCalculatorDefaultValue();
     expect(calculatorDefaultValue).toContain('200 000');
 
-    //Calculator value after minus button click = 190 000
+    //Значение калькулятора после клика на минус = 190 000
     const calculatorMinusValue = await calculator.valueAfterMinusButtonClick();
     expect(calculatorMinusValue).toContain('190 000');
 
-    //Calculator value after plus button click
+    //Значение калькулятора после клика на плюс = 190 000
     const calculatorPlusValue = await calculator.valueAfterPlusButtonClick();
     expect(calculatorPlusValue).toContain('200 000');
 
-    //Arrange input visible
+    //Слайдер калькулятора видим
     await expect(calculator.creditSlider).toBeVisible();
 
-    //Minimum value 100 000 is presented
+    //Минимальная сумма 100 000 отображается
     await expect(calculator.minimumValue).toBeVisible();
     const minimumCalculatorValue = await calculator.getCalculatorMinimumValue();
     expect(minimumCalculatorValue).toContain('100 000');
 
-    //Maximum value 1 000 000 is presented
+    //Максимальная сумма 1 000 000 отображается
     await expect(calculator.maximumValue).toBeVisible();
     const maximumCalculatorValue = await calculator.getCalculatorMaximumValue();
     expect(maximumCalculatorValue).toContain('1 000 000');
 
-    //Checking the value change via slider
+    //Проверка изменения суммы через слайдер
     await calculator.creditSlider.fill('100000');
     await expect(calculator.currentValue).toHaveText('100 000');
 
     await calculator.creditSlider.fill('1000000');
     await expect(calculator.currentValue).toHaveText('1 000 000');
 
-    // Проверяем, что кнопка видима
+    // Кнопка "Continuar" отображается
     await expect(home.calculatorButton).toBeVisible();
 
-    // Проверяем текст кнопки
+    // Проверка текста кнопки
     await expect(home.calculatorButton).toHaveText('Continuar');
 
-    // Проверяем ссылку
+    // Проверка ссылки кнопки
     await expect(home.calculatorButton).toHaveAttribute('href', '/user/registration/');
 
-    //Проверяем кликабельность кнопки
+    //Проверка кликабельности кнопки
     await home.calculatorButton.click();
     await expect(page).toHaveURL(/.*\/user\/registration\/.*/);
   
@@ -110,11 +111,10 @@ test.describe('Проверка страницы "¿Cómo obtener tu crédito on
     
       await expect(footer.footer).toBeVisible();
  
-  
       await expect(footer.logo).toBeVisible();
       //await expect(footer.logo).toHaveAttribute('src', 'https://credito365.co/wp-content/uploads/2023/09/footer-logo.svg');
 
-      //все ссылки меню видимы и кликабельны.
+      //все ссылки меню футера видимы и кликабельны.
       await expect(footer.footer).toBeVisible();
       const menuItems = await footer.getmenuItems();
       expect(menuItems).toEqual(['Como aplicar', 'Como pagar', 'Como extender', 'Sobre nosotros', 'FAQ']); 
@@ -124,12 +124,12 @@ test.describe('Проверка страницы "¿Cómo obtener tu crédito on
           await expect(footer.footerMenuItems.nth(i)).toHaveAttribute('href', /https:\/\/credito365\.co/);
       }
  
-        //Links to social networks
+        //Ссылки на социальные сети компании
       for (let i=0; i < footer.expectedSocialLinks.length; i++) {
           await expect(footer.socialIcons.nth(i)).toHaveAttribute('href', footer.expectedSocialLinks[i]);
       }
  
-        //Section "Ayda"
+        //Прверки секции "Ayda"
       for (let i=0; i < footer.expectedSupportLinks.length; i++) {
           await expect(footer.supportIcons.nth(i)).toHaveAttribute('href', footer.expectedSupportLinks[i]);
       }
@@ -137,7 +137,7 @@ test.describe('Проверка страницы "¿Cómo obtener tu crédito on
         await expect(footer.pseLogo).toBeVisible();
         await expect(footer.pseLogo).toHaveAttribute('src', 'https://credito365.co/wp-content/uploads/2024/05/footer-pse-logo.svg');
     
-        //Links to "Terminos y condiciones" и "Politica de Privacidad"
+        //LСсылки на "Terminos y condiciones" и "Politica de Privacidad"
       for (let i = 0; i < footer.expectedTermsLinks.length; i++) {
       await expect(footer.termsMenuItems.nth(i)).toHaveAttribute('href', footer.expectedTermsLinks[i]);
       }
@@ -154,7 +154,7 @@ test.describe('Проверка страницы "¿Cómo obtener tu crédito on
         // Проверка наличия кнопки "Iniciar sesión"
         await expect(header.loginButton).toBeVisible();
 
-        // Проверяем ссылку
+        // Проверка ссылки кнопки  "Iniciar sesión"
         await expect(header.loginButton).toHaveAttribute('href', '/user/login/');
 
          // Проверка наличия телефона WhatsApp
