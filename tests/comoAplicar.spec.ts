@@ -5,6 +5,7 @@ import { HomePageElements} from './pages/HomePageElements'
 import { FooterElements } from './pages/footerElements';
 import { HeaderElements } from './pages/HeaderElements';
 
+
 test.describe('Проверка страницы "Como aplicar"', () => {
     let como: ComoAplicar;
     let calculator: CalculatorElements;
@@ -18,7 +19,7 @@ test.describe('Проверка страницы "Como aplicar"', () => {
         home = new HomePageElements(page);
         footer = new FooterElements(page);
         header = new HeaderElements(page);
-        await page.goto('https://credito365.co/como-aplicar/'); 
+        await page.goto('/como-aplicar/'); 
       });
 
        // Проверка наличия основного заголовка

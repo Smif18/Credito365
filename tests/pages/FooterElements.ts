@@ -83,8 +83,8 @@ export class FooterElements{
                                 ];
 
         expectedTermsLinks = [
-        'https://credito365.co/terms/',
-        'https://credito365.co/privacy-policy/'
+        'terms/',
+        'privacy-policy/'
                                 ];                        
 
     async getmenuItems() {

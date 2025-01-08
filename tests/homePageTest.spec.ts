@@ -15,7 +15,7 @@ test.describe('Credito365 home page elements test', () => {
         calculator = new CalculatorElements(page);
         footer = new FooterElements(page);
         header = new HeaderElements(page);
-        await home.openHomePage();
+        await page.goto('/');
     });
 
     test('Home page elements are present', async ({ page }) => {
@@ -53,9 +53,22 @@ test.describe('Credito365 home page elements test', () => {
         await expect(home.advantagesIcons).toHaveCount(4);
 
         //Проверка видимости каждого блока преимуществ
-        for (let i = 0; i < home.expectedIconSrcs.length; i++) {
-        await expect(home.advantagesIcons.nth(i)).toHaveAttribute('src', home.expectedIconSrcs[i]);
-        }
+        // Пример: Получение всех элементов с изображениями
+    const icons = await page.locator('div.advantage__icon img').elementHandles();
+
+    // Проверка каждой ссылки
+    for (let i = 0; i < home.expectedIconSrcs.length; i++) {
+      const actualSrc = await icons[i].getAttribute('src'); // Получить фактический src
+      
+      if (actualSrc) { // Проверка, что actualSrc не null
+          const actualPath = new URL(actualSrc).pathname; // Извлечь путь
+          const expectedPath = new URL(home.expectedIconSrcs[i]).pathname; // Извлечь путь из ожидаемого src
+  
+          expect(actualPath).toBe(expectedPath); // Сравнить пути
+      } else {
+          throw new Error(`Icon at index ${i} has no 'src' attribute.`); // Обработка null
+      }
+  }
         // Проверка, что каждый блок с преимуществом видим
         for (let i = 0; i < 4; i++) {
         await expect(home.advantagesItems.nth(i)).toBeVisible();
@@ -84,13 +97,13 @@ test.describe('Credito365 home page elements test', () => {
     });
    
 
-        test('Switching to the “Continuar” button', async ({ page }) => {
+        test('Switching to the Continuar button', async ({ page }) => {
 
          // Клик по кнопке
         await home.continueButton.click();
 
         // Проверка URL
-        await expect(page).toHaveURL('https://credito365.co/user/registration/');
+        await expect(page).toHaveURL('/user/registration/');
         });
 
 
@@ -226,9 +239,13 @@ test.describe('Credito365 home page elements test', () => {
           const menuItems = await footer.getmenuItems();
           expect(menuItems).toEqual(['Como aplicar', 'Como pagar', 'Como extender', 'Sobre nosotros', 'FAQ']); 
     
+          // Получаем текущий домен с учетом окружения
+          const baseUrl = process.env.BASE_URL || 'https://master.credito365-co.avgr.it'; // устанавливаем URL по умолчанию для продакшн
+          const domainPattern = new RegExp(`^${baseUrl}`);
+
           for (let i = 0; i < menuItems.length; i++) {
-              await expect(footer.footerMenuItems.nth(i)).toBeVisible();
-              await expect(footer.footerMenuItems.nth(i)).toHaveAttribute('href', /https:\/\/credito365\.co/);
+          await expect(footer.footerMenuItems.nth(i)).toBeVisible();
+          await expect(footer.footerMenuItems.nth(i)).toHaveAttribute('href', domainPattern);
           }
      
             //Ссылки на социальные сети компании
@@ -240,13 +257,19 @@ test.describe('Credito365 home page elements test', () => {
           for (let i=0; i < footer.expectedSupportLinks.length; i++) {
               await expect(footer.supportIcons.nth(i)).toHaveAttribute('href', footer.expectedSupportLinks[i]);
           }
-            // PSE logo
+
+            // PSE logo - динамическая проверка домена
+            const pseLogoBaseUrl = process.env.BASE_URL || 'https://master.credito365-co.avgr.it'; // используем домен из окружения
+            const expectedPseLogoSrc = `${pseLogoBaseUrl}wp-content/uploads/2024/05/footer-pse-logo.svg`;
+
             await expect(footer.pseLogo).toBeVisible();
-            await expect(footer.pseLogo).toHaveAttribute('src', 'https://credito365.co/wp-content/uploads/2024/05/footer-pse-logo.svg');
+            await expect(footer.pseLogo).toHaveAttribute('src', expectedPseLogoSrc);
         
-            //LСсылки на "Terminos y condiciones" и "Politica de Privacidad"
-          for (let i = 0; i < footer.expectedTermsLinks.length; i++) {
-          await expect(footer.termsMenuItems.nth(i)).toHaveAttribute('href', footer.expectedTermsLinks[i]);
+            // Ссылки на "Términos y condiciones" и "Política de Privacidad" - динамическая проверка домена
+            const termsLinksBaseUrl = process.env.BASE_URL || 'https://master.credito365-co.avgr.it'; // используем домен из окружения
+            for (let i = 0; i < footer.expectedTermsLinks.length; i++) {
+            const expectedTermsUrl = `${termsLinksBaseUrl}${footer.expectedTermsLinks[i]}`;
+            await expect(footer.termsMenuItems.nth(i)).toHaveAttribute('href', expectedTermsUrl);
           }
           });
     
