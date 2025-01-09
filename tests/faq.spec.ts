@@ -79,7 +79,7 @@ test.describe('Проверка страницы "FAQ"', () => {
             // Проверка ссылки кнопки
             await expect(home.calculatorButton).toHaveAttribute('href', '/user/registration/');
         
-            //Проверка кликабельности кнопки
+            //Проверка кликабельности кнопки test
             await home.calculatorButton.click();
             await expect(page).toHaveURL(/.*\/user\/registration\/.*/);
           
