@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-const baseURL = process.env.BASE_URL || 'https://master.credito365-co.avgr.it';
+const baseURL = process.env.PROD_URL || process.env.MASTER_URL;
 
 export default defineConfig({
   use: {

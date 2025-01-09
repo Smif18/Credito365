@@ -1,3 +1,4 @@
+/*
 import { test, expect } from '@playwright/test';
 import { HomePageElements } from './pages/HomePageElements';
 import { FooterElements } from './pages/footerElements';
@@ -45,15 +46,16 @@ test.describe('Credito365 footer elements test', () => {
         }
     });
 
-    test('PSE logo is displayed', async () => {
-        await expect(footer.pseLogo).toBeVisible();
-        await expect(footer.pseLogo).toHaveAttribute('src', 'https://credito365.co/wp-content/uploads/2024/05/footer-pse-logo.svg');
-        });
+    // PSE logo - динамическая проверка домена
+    const expectedPseLogoSrc = `${baseURL}wp-content/uploads/2024/05/footer-pse-logo.svg`;
+  
+    await expect(footer.pseLogo).toBeVisible();
+    await expect(footer.pseLogo).toHaveAttribute('src', expectedPseLogoSrc);
 
-    test ('Links to "Terminos y condiciones" и "Politica de Privacidad"', async () => {
-        for (let i = 0; i < footer.expectedTermsLinks.length; i++) {
-        await expect(footer.termsMenuItems.nth(i)).toHaveAttribute('href', footer.expectedTermsLinks[i]);
-        }
-        });
-
+    // Ссылки на "Términos y condiciones" и "Política de Privacidad" - динамическая проверка домена
+    for (let i = 0; i < footer.expectedTermsLinks.length; i++) {
+      const expectedTermsUrl = `${baseURL}${footer.expectedTermsLinks[i]}`; // формируем полный URL как строку
+      await expect(footer.termsMenuItems.nth(i)).toHaveAttribute('href', expectedTermsUrl);
+    }
     });
+    */

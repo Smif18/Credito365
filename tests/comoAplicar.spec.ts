@@ -108,70 +108,76 @@ test.describe('Проверка страницы "Como aplicar"', () => {
    });
 
 
-    test('Footer tests', async () => {
-    
-      await expect(footer.footer).toBeVisible();
- 
-      await expect(footer.logo).toBeVisible();
-      //await expect(footer.logo).toHaveAttribute('src', 'https://credito365.co/wp-content/uploads/2023/09/footer-logo.svg');
+   test('Footer tests', async ({ baseURL }) => {
+        
+    await expect(footer.footer).toBeVisible();
 
-      //все ссылки меню футера видимы и кликабельны.
-      await expect(footer.footer).toBeVisible();
-      const menuItems = await footer.getmenuItems();
-      expect(menuItems).toEqual(['Como aplicar', 'Como pagar', 'Como extender', 'Sobre nosotros', 'FAQ']); 
+    await expect(footer.logo).toBeVisible();
+    //await expect(footer.logo).toHaveAttribute('src', 'https://credito365.co/wp-content/uploads/2023/09/footer-logo.svg');
 
-      for (let i = 0; i < menuItems.length; i++) {
-          await expect(footer.footerMenuItems.nth(i)).toBeVisible();
-          await expect(footer.footerMenuItems.nth(i)).toHaveAttribute('href', /https:\/\/credito365\.co/);
-      }
- 
-        //Ссылки на социальные сети компании
-      for (let i=0; i < footer.expectedSocialLinks.length; i++) {
-          await expect(footer.socialIcons.nth(i)).toHaveAttribute('href', footer.expectedSocialLinks[i]);
-      }
- 
-        //Прверки секции "Ayda"
-      for (let i=0; i < footer.expectedSupportLinks.length; i++) {
-          await expect(footer.supportIcons.nth(i)).toHaveAttribute('href', footer.expectedSupportLinks[i]);
-      }
-        // PSE logo
-        await expect(footer.pseLogo).toBeVisible();
-        await expect(footer.pseLogo).toHaveAttribute('src', 'https://credito365.co/wp-content/uploads/2024/05/footer-pse-logo.svg');
-    
-        //LСсылки на "Terminos y condiciones" и "Politica de Privacidad"
+    //все ссылки меню футера видимы и кликабельны.
+    await expect(footer.footer).toBeVisible();
+    const menuItems = await footer.getmenuItems();
+    expect(menuItems).toEqual(['Como aplicar', 'Como pagar', 'Como extender', 'Sobre nosotros', 'FAQ']); 
+
+    // Получаем текущий домен с учетом окружения
+    const domainPattern = new RegExp(`^${baseURL}`);
+
+    for (let i = 0; i < menuItems.length; i++) {
+    await expect(footer.footerMenuItems.nth(i)).toBeVisible();
+    await expect(footer.footerMenuItems.nth(i)).toHaveAttribute('href', domainPattern);
+    }
+
+      //Ссылки на социальные сети компании
+    for (let i=0; i < footer.expectedSocialLinks.length; i++) {
+        await expect(footer.socialIcons.nth(i)).toHaveAttribute('href', footer.expectedSocialLinks[i]);
+    }
+
+      //Прверки секции "Ayda"
+    for (let i=0; i < footer.expectedSupportLinks.length; i++) {
+        await expect(footer.supportIcons.nth(i)).toHaveAttribute('href', footer.expectedSupportLinks[i]);
+    }
+
+      // PSE logo - динамическая проверка домена
+      const expectedPseLogoSrc = `${baseURL}wp-content/uploads/2024/05/footer-pse-logo.svg`;
+
+      await expect(footer.pseLogo).toBeVisible();
+      await expect(footer.pseLogo).toHaveAttribute('src', expectedPseLogoSrc);
+  
+      // Ссылки на "Términos y condiciones" и "Política de Privacidad" - динамическая проверка домена
       for (let i = 0; i < footer.expectedTermsLinks.length; i++) {
-      await expect(footer.termsMenuItems.nth(i)).toHaveAttribute('href', footer.expectedTermsLinks[i]);
+        const expectedTermsUrl = `${baseURL}${footer.expectedTermsLinks[i]}`; // формируем полный URL как строку
+        await expect(footer.termsMenuItems.nth(i)).toHaveAttribute('href', expectedTermsUrl);
       }
       });
 
-      test('Header tests', async () => {
-        // Проверка наличия логотипа
-        await expect(header.logo).toBeVisible();
-    
-        // Проверка наличия пунктов меню
-        const menuItems = await header.menuItems.all();
-        expect(menuItems.length).toBeGreaterThan(0);
+    test('Header tests', async () => {
+      // Проверка наличия логотипа
+      await expect(header.logo).toBeVisible();
+  
+      // Проверка наличия пунктов меню
+      const menuItems = await header.menuItems.all();
+      expect(menuItems.length).toBeGreaterThan(0);
 
-        // Проверка наличия кнопки "Iniciar sesión"
-        await expect(header.loginButton).toBeVisible();
+      // Проверка наличия кнопки "Iniciar sesión"
+      await expect(header.loginButton).toBeVisible();
 
-        // Проверка ссылки кнопки  "Iniciar sesión"
-        await expect(header.loginButton).toHaveAttribute('href', '/user/login/');
+      // Проверка ссылки кнопки  "Iniciar sesión"
+      await expect(header.loginButton).toHaveAttribute('href', '/user/login/');
 
-         // Проверка наличия телефона WhatsApp
-         await expect(header.whatsappPhone).toBeVisible();
-         const whatsappPhoneNumber = await header.getWhatsappPhoneNumber();
-         expect(whatsappPhoneNumber).toContain('3044404600');
-         const whatsappPhoneHref = await header.getWhatsappPhoneHref();
-         expect(whatsappPhoneHref).toContain('https://wa.me/+573044404600');
- 
-         // Проверка наличия обычного телефона
-         await expect(header.regularPhone).toBeVisible();
-         const regularPhoneNumber = await header.getRegularPhoneNumber();
-         expect(regularPhoneNumber).toContain('3330333060');
-         const regularPhoneHref = await header.getRegularPhoneHref();
-         expect(regularPhoneHref).toEqual('tel:3330333060');
-      })
-});
+       // Проверка наличия телефона WhatsApp
+       await expect(header.whatsappPhone).toBeVisible();
+       const whatsappPhoneNumber = await header.getWhatsappPhoneNumber();
+       expect(whatsappPhoneNumber).toContain('3044404600');
+       const whatsappPhoneHref = await header.getWhatsappPhoneHref();
+       expect(whatsappPhoneHref).toContain('https://wa.me/+573044404600');
 
+       // Проверка наличия обычного телефона
+       await expect(header.regularPhone).toBeVisible();
+       const regularPhoneNumber = await header.getRegularPhoneNumber();
+       expect(regularPhoneNumber).toContain('3330333060');
+       const regularPhoneHref = await header.getRegularPhoneHref();
+       expect(regularPhoneHref).toEqual('tel:3330333060');
+    })
 
+  });

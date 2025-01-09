@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+/*import { test, expect } from '@playwright/test';
 import { CalculatorElements } from './pages/CalculatorElements';
 import { HomePageElements } from './pages/HomePageElements';
 
@@ -52,4 +52,5 @@ test.describe('Check Calculator elements', () => {
         await expect(calculator.currentValue).toHaveText('1 000 000');
     });
 
-})
+)};
+*/

@@ -10,6 +10,7 @@ test.describe('Credito365 home page elements test', () => {
     let footer: FooterElements
     let header: HeaderElements;
 
+
     test.beforeEach(async ({ page }) => {
         home = new HomePageElements(page);
         calculator = new CalculatorElements(page);
@@ -77,7 +78,7 @@ test.describe('Credito365 home page elements test', () => {
         // Проверка, что промо-текст видим
         await expect(home.promoText).toBeVisible();
 
-        // Проверяка, что промо-текст содержит ожидаемые слова
+        // Проверка, что промо-текст содержит ожидаемые слова
         await expect(home.promoText).toContainText('Con Credito365');
         await expect(home.promoText).toContainText('puedes obtener un préstamo online');
         
@@ -166,10 +167,10 @@ test.describe('Credito365 home page elements test', () => {
         // Проверка текста заголовка
         await expect(home.condicionesHeading).toHaveText('Condiciones para la obtención del credito de bajo monto');
 
-         // Проверяем, что текст видим
+         // Проверка, что текст условий видим
         await expect(home.condicionesText).toBeVisible();
 
-        // Проверяка, что текст содержит ключевые условия
+        // Проверка, что текст содержит ключевые условия
         await expect(home.condicionesText).toContainText('ser mayor de edad');
         await expect(home.condicionesText).toContainText('ser de nacionalidad colombiana');
         await expect(home.condicionesText).toContainText('Desde 100 000 COP hasta 1 000 000 COP');
@@ -227,7 +228,7 @@ test.describe('Credito365 home page elements test', () => {
        });
     
     
-        test('Footer tests', async () => {
+        test('Footer tests', async ({ baseURL }) => {
         
           await expect(footer.footer).toBeVisible();
      
@@ -240,8 +241,7 @@ test.describe('Credito365 home page elements test', () => {
           expect(menuItems).toEqual(['Como aplicar', 'Como pagar', 'Como extender', 'Sobre nosotros', 'FAQ']); 
     
           // Получаем текущий домен с учетом окружения
-          const baseUrl = process.env.BASE_URL || 'https://master.credito365-co.avgr.it'; // устанавливаем URL по умолчанию для продакшн
-          const domainPattern = new RegExp(`^${baseUrl}`);
+          const domainPattern = new RegExp(`^${baseURL}`);
 
           for (let i = 0; i < menuItems.length; i++) {
           await expect(footer.footerMenuItems.nth(i)).toBeVisible();
@@ -259,19 +259,17 @@ test.describe('Credito365 home page elements test', () => {
           }
 
             // PSE logo - динамическая проверка домена
-            const pseLogoBaseUrl = process.env.BASE_URL || 'https://master.credito365-co.avgr.it'; // используем домен из окружения
-            const expectedPseLogoSrc = `${pseLogoBaseUrl}wp-content/uploads/2024/05/footer-pse-logo.svg`;
+            const expectedPseLogoSrc = `${baseURL}wp-content/uploads/2024/05/footer-pse-logo.svg`;
 
             await expect(footer.pseLogo).toBeVisible();
             await expect(footer.pseLogo).toHaveAttribute('src', expectedPseLogoSrc);
         
             // Ссылки на "Términos y condiciones" и "Política de Privacidad" - динамическая проверка домена
-            const termsLinksBaseUrl = process.env.BASE_URL || 'https://master.credito365-co.avgr.it'; // используем домен из окружения
             for (let i = 0; i < footer.expectedTermsLinks.length; i++) {
-            const expectedTermsUrl = `${termsLinksBaseUrl}${footer.expectedTermsLinks[i]}`;
-            await expect(footer.termsMenuItems.nth(i)).toHaveAttribute('href', expectedTermsUrl);
-          }
-          });
+              const expectedTermsUrl = `${baseURL}${footer.expectedTermsLinks[i]}`; // формируем полный URL как строку
+              await expect(footer.termsMenuItems.nth(i)).toHaveAttribute('href', expectedTermsUrl);
+            }
+            });
     
           test('Header tests', async () => {
             // Проверка наличия логотипа

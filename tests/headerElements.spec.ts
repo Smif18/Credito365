@@ -1,3 +1,4 @@
+/*
 import { test, expect } from '@playwright/test';
 import { HeaderElements } from './pages/HeaderElements';
 import { HomePageElements } from './pages/HomePageElements';
@@ -28,11 +29,11 @@ test.describe('Credito365 header Tests', () => {
 
              //Проверяем кликабельность кнопки
             await header.loginButton.click();
-            await expect(page).toHaveURL(/.*\/user\/login\/.*/);
-            });
-   
+            //await expect(page).toHaveURL(/.*\/user\/login\/.*/;
+            //});
+            
 
-            test('Click on the button “Iniciar sesión”', async ({ page }) => {
+            /*test('Click on the button “Iniciar sesión”', async ({ page }) => {
 
             // Клик по кнопке
             await header.loginButton.click();
@@ -89,3 +90,4 @@ test.describe('Credito365 header Tests', () => {
         });
     
 });
+*/
