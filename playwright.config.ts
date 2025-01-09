@@ -4,7 +4,7 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-const baseURL = process.env.PROD_URL || process.env.MASTER_URL;
+const baseURL = process.env.MASTER_URL || process.env.PROD_URL;
 
 export default defineConfig({
   use: {
